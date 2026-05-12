@@ -7,6 +7,10 @@ const PORT = 3000; // porta onde o servidor vai rodar localmente
 app.get('/', (req, res) => {
   res.json({ mensagem: 'Yearbook API está no ar! 🎓' });
 });
+app.get('/status', (req, res) => {
+  status : "ok",
+  timestamp: new Date
+});
 
 // inicia o servidor localmente — na Vercel essa parte é pulada
 if (process.env.VERCEL !== '1') {
