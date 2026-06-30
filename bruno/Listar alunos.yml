@@ -1,0 +1,15 @@
+info:
+  name: Listar alunos
+  type: http
+  seq: 1
+
+http:
+  method: GET
+  url: https://orange-cod-7vgpjqxq4qj4cpjp5-3000.app.github.dev/
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

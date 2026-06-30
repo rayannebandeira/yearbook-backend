@@ -1,0 +1,15 @@
+info:
+  name: atualizar aluno
+  type: http
+  seq: 4
+
+http:
+  method: PUT
+  url: https://orange-cod-7vgpjqxq4qj4cpjp5-3000.app.github.dev/
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
