@@ -39,32 +39,44 @@ export async function buscarAluno(req, res) {
   res.json(aluno);
 }
 
-// POST /alunos — cria um novo aluno
+// 🎯 POST /alunos — cria um novo aluno
+// Dica: use prisma.aluno.create({ data: { ... }, select: selectSemSenha })
+// Dica: os dados do aluno vêm de req.body (nome, email, senhaHash, cidade, frase, planosFuturos)
+// Dica: retorne status 201 com o aluno criado
 export async function criarAluno(req, res) {
-  const {
-    nome,
-    email,
-    senhaHash,
-    cidade,
-    frase,
-    planosFuturos,
-  } = req.body;
+  try {
+    // 1. Extraia os campos de req.body
+    const { nome, email, senhaHash, cidade, frase, planosFuturos } = req.body;
 
-  const alunoCriado = await prisma.aluno.create({
-    data: {
-      nome,
-      email,
-      senhaHash,
-      cidade,
-      frase,
-      planosFuturos,
-    },
-    select: selectSemSenha,
-  });
+    // 2. Use prisma.aluno.create() com data e select: selectSemSenha
+    const alunoCriado = await prisma.aluno.create({
+      data: {
+        nome,
+        email,
+        senhaHash,
+        cidade,
+        frase,
+        planosFuturos,
+      },
+      select: selectSemSenha, // O Prisma vai omitir a senhaHash automaticamente aqui
+    });
 
-  return res.status(201).json(alunoCriado);
+    // 3. Retorne res.status(201).json(alunoCriado)
+    return res.status(201).json(alunoCriado);
+
+  } catch (error) {
+    // Trata o erro de e-mail duplicado (Evita o erro 500 que estava dando no Bruno)
+    if (error.code === 'P2002') {
+      return res.status(400).json({ 
+        error: 'Este e-mail já está cadastrado no sistema.' 
+      });
+    }
+
+    // Trata qualquer outro erro inesperado
+    console.error("Erro ao criar aluno:", error);
+    return res.status(500).json({ error: 'Erro interno do servidor.' });
+  }
 }
-
 // PUT /alunos/:id — atualiza um aluno existente
 export async function atualizarAluno(req, res) {
   const { id } = req.params;
