@@ -7,8 +7,8 @@ import {
 
 const router = Router();
 
-router.get('/', listarMensagens);       // GET /mensagens
-router.post('/', criarMensagem);        // POST /mensagens
-router.delete('/:id', deletarMensagem); // DELETE /mensagens/:id
+router.get('/', listarMensagens);
+router.post('/', criarMensagem);
+router.delete('/:id', deletarMensagem);
 
 export default router;
